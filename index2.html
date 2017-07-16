@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div style="float: left;">
+				<h2>自定义下拉框</h2>
+				<custom-select btn-value="查询" :list="list1"></custom-select>
+			</div>
+			<div style="float: left;">
+				<h2>自定义下拉框2</h2>
+				<!--btn-value为传入组件的参数-->
+				<custom-select btn-value="搜索" :list="list2"></custom-select>
+			</div>
+		</div>
+		<script type="text/javascript">
+			//使用组件之前要注册组件
+			//注册组件（全局注册）
+//			var obj = {
+//				selectShow:false
+//			}
+			Vue.component("custom-select",{
+				data:function(){
+					return {
+						selectShow:false,
+						val:''
+					}
+				},
+				//props用于接收传入的数据 用于接受传入的参数
+				//动态绑定value 所以要用v-band 简写为：value
+				props:['btnValue','list'],
+				template:
+				`<section class="warp">
+					<div class="searchIpt clearFix">
+						<div class="clearFix">
+							<input type="text" class="keyWord" :value="val" @click="selectShow=!selectShow"/>
+							<input type="button" :value="btnValue">
+							<span></span>
+						</div>
+						<custom-list 
+							v-show = "selectShow" 
+							:list="list"
+							v-on:receive="changeValue"
+						></custom-list>
+					</div>
+				</section>`,
+				methods:{
+					changeValue(value){
+						this.val = value;
+
+					}
+				}
+			})
+			
+			Vue.component("custom-list",{
+				props:['list'],
+				template:`<ul class="list">
+							<li 
+								v-for="item of list" 
+								@click='selectValue(item)'>{{item}}
+							</li>
+						</ul>`,
+				methods:{
+					selectValue:function(item){
+						console.log(item)
+						//点击里某一个li 子组件中有交互 数据要放入input里面
+						//告知父集，改变val的值，需要触发一个自定义事件
+						this.$emit('receive',item)
+					}
+				}
+			})
+			new Vue({
+				el:'#app',
+				data:{
+					list1:['北京','上海','杭州'],
+					list2:['2017年4月','2017年5月','2017年6月','2017年7月']
+				}
+//				//局部祖册 只能在这个实例里面使用
+//				components:{
+//					'custom-select':{
+//						template:`<section class="warp">
+//								<div class="searchIpt clearFix">
+//									<div class="clearFix">
+//										<input type="text" class="keyWord" value="" />
+//										<input type="button" value="GO">
+//										<span></span>
+//									</div>
+//									<ul class="list">
+//										<li>html+css</li>
+//										<li>html5+css3</li>
+//										<li>javascript</li>
+//										<li>angular</li>
+//										<li>react</li>
+//										<li>vue</li>
+//										<li>jquery</li>
+//										<li>nodejs</li>
+//									</ul>
+//								</div>
+//							</section>`
+//							
+//					}
+//				}
+			})
+		</script>
+	</body>
+</html>

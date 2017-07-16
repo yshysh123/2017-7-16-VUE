@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.textColor{
+				color:red;
+			}
+			.textSize{
+				font-size: 50px;
+			}
+		</style>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{message}}
+			<br />
+			<!--v-band的好处，实时更新dom，不用从新渲染，当data改变的时候，视图自动更新-->
+			<!--动态绑定字符串形式-->
+			<input type="text" v-model="message"/ :class="{'textColor':isColor,'textSize':isSize}">
+			<!--双向绑定-->
+			<input type="button" @click="pull" value="按钮"/><br />
+			<!--动态绑定键值对格式-->
+			<span :class="classObj">我是一个人</span><br />
+			<!--动态绑定数组形式-->
+			<span :class='[classA,classB]'>我是于偲鸿</span><br />
+			<!--动态绑定带条件形式-->
+			<span :class="[isA?classa:'',classb]">我是秦焕宇</span><br />
+			<!--style绑定字符串形式-->
+			<span :style="{color:activeColor, fontSize:size,textShadow:shadow}">我是马辉</span><br />
+			<!--style绑定键值对格式-->
+			<span :style="styleObject">我是刘雅松</span><br />
+			<!--style绑定数组格式-->
+			<span :style="[styleA,styleB]">我是沈松</span><br />
+			<!--style条件判断形式-->
+			<span :style="[isa?stylea:'', styleb]">我是字</span>
+			<!--v-band 绑定src-->
+			<img :src="bandimg"/>
+			<!--v-band 绑定title-->
+			<div :title="message">我是王泽慧</div>
+			<!--同理 v-band也可以绑定id名 等等-->
+		</div>
+		<script type="text/javascript">
+			data = {
+				message:'这是一段话',
+				//字符串
+				isColor:true,
+				isSize:true,
+				//键值对
+				classObj:{
+					'textColor':true,
+					'textSize':true,
+				},
+				//数组
+				classA:'textColor',
+				classB:'textSize',
+				//条件
+				classa:'textColor',
+				classb:'textSize',
+				isA:false,
+				//style每个样式
+				activeColor:'green',
+				size:'40px',
+				shadow:'5px 2px 6px #000',
+				//style集合
+				styleObject:{
+					color:'blue',
+					fontSize:'30px',
+					textShadow:'5px 2px 6px #ff0000',
+				},
+				styleA:{
+					fontSize:'70px',
+					color:'yellow',
+				},
+				styleB:{
+					textShadow:'5px 2px 6px #ff0000',
+				},
+				stylea:{
+					fontSize:'70px',
+					color:'yellow',
+				},
+				styleb:{
+					textShadow:'5px 2px 6px #ff0000',
+				},
+				isa:false,
+				bandimg:'img/select_search.png'
+			}
+			var vm = new Vue({
+				el:'#app',
+				data:data,
+				methods:{
+					pull(){
+						alert(1);
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
